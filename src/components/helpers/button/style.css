@@ -1,0 +1,14 @@
+.btn {
+  text-align: center;
+}
+
+.btn-red {
+  padding: 11px 34px;
+  background-color: #E50914;
+  color: #fff;
+  border: 0;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 19px;
+}

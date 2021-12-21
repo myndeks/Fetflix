@@ -1,0 +1,32 @@
+.hero {
+  background-image: url('./images/hero.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 490px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero button {
+  padding: 11px 34px;
+  background-color: #E50914;
+  color: #fff;
+  border: 0;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 19px;
+}
+
+.hero h1 {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 48px;
+  line-height: 56px;
+  text-align: center;
+  color: #E5E5E5;
+  text-shadow: -1px 8px 7px rgba(0, 0, 0, 0.39);
+}

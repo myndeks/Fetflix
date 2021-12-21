@@ -1,0 +1,15 @@
+.App {
+  font-family: Roboto;
+}
+
+body {
+  background: #000;
+}
+
+.seperator {
+  height: 10px;
+  background-color: #222222;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
