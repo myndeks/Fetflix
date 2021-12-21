@@ -20,6 +20,7 @@
 .movie_card__content {
   background: #222222;
   padding: 10px 20px;
+  margin-top: -5px;
 }
 
 .movie_card__content-title h3 {
@@ -58,4 +59,13 @@
   font-size: 16px;
   line-height: 19px;
   cursor: pointer;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.favorite img {
+  width: 20px;
+  margin-left: 5px;
 }

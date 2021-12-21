@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import BrokenHart from './broken-heart.png';
 import './style.css';
 
 function MovieCard (props) {
@@ -11,11 +12,11 @@ function MovieCard (props) {
      if (e.target.classList == 'movie_card__content-button') {
        e.target.classList.remove('movie_card__content-button');
        e.target.classList.add('favorite');
-       e.target.textContent = "Remove";
-     } else {
+       e.target.innerHTML = `Remove <img src=${BrokenHart} alt="broken hart"/>`;
+     } else if (e.target.classList == 'favorite') {
        e.target.classList.remove('favorite');
        e.target.classList.add('movie_card__content-button');
-       e.target.textContent = "Favorite";
+       e.target.innerHTML = 'Favorite';
      }
 
  }
