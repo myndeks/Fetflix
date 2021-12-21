@@ -6,12 +6,18 @@ function MovieCard (props) {
 
   const freeMovies = props.data;
 
-  const handleFavorite = (e) => {
+  const favorite = [];
+
+
+  const handleFavorite = (e, i) => {
      e.preventDefault();
 
      if (e.target.classList == 'movie_card__content-button') {
        e.target.classList.remove('movie_card__content-button');
        e.target.classList.add('favorite');
+       favorite.push(`${i}`);
+       document.cookie = favorite;
+       console.log(favorite);
        e.target.innerHTML = `Remove <img src=${BrokenHart} alt="broken hart"/>`;
      } else if (e.target.classList == 'favorite') {
        e.target.classList.remove('favorite');
@@ -20,6 +26,8 @@ function MovieCard (props) {
      }
 
  }
+
+ const cookiesInfo = document.cookie
 
   return (
     <div className="movie_card_wrapper">
@@ -41,9 +49,16 @@ function MovieCard (props) {
                     {item.description.substring(0,50)}
                   </p>
                 </div>
-                <button onClick={(e) => handleFavorite(e)} className="movie_card__content-button">
-                  Favorite
-                </button>
+
+                {cookiesInfo.includes(i) ?
+                  <button onClick={(e) => handleFavorite(e, i)} className="favorite">
+                    Favorite
+                  </button>
+                  :
+                  <button onClick={(e) => handleFavorite(e, i)} className="movie_card__content-button">
+                    Favorite
+                  </button>
+                }
               </div>
             </div>
           );
