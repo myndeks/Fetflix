@@ -11,7 +11,6 @@ function MovieCard (props) {
      if (e.target.classList == 'movie_card__content-button') {
        e.target.classList.remove('movie_card__content-button');
        e.target.classList.add('favorite');
-       console.log( e.target.textContent);
        e.target.textContent = "Remove";
      } else {
        e.target.classList.remove('favorite');
