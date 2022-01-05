@@ -1,10 +1,15 @@
 import "./style.css"
+import SignInBtn from '../../components/helpers/button/index.js';
 
-function Header ({btnInfo}) {
+import {
+  Link
+} from "react-router-dom";
+
+function Header ({btnInfo, link}) {
   return(
     <div className="header">
       <a href="#">F</a>
-      <button>{btnInfo}</button>
+      <SignInBtn btnInfo={btnInfo} link={link} />
     </div>
   );
 }

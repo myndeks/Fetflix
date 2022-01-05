@@ -1,13 +1,16 @@
 import React from "react";
 import axios from 'axios';
 
+import {
+  BrowserRouter,
+  Routes,
+  Route
+} from "react-router-dom";
+
 import './App.css';
-import Header from './components/header/index.js';
-import Hero from './components/hero/index.js';
-import MovieCard from './components/movie_card/index.js';
-import Button from './components/helpers/button/index.js';
-import Footer from './components/footer/index.js';
-import Spacer from './components/helpers/spacer/index.js';
+import LogIn from './pages/logIn/index.js';
+import LogOut from './pages/logout/index.js';
+import Main from './pages/main/index.js';
 
 
 
@@ -15,29 +18,48 @@ class App extends React.Component {
 
   state = {
     freeVideo: [],
-    loading: true
+    tokenInfo: sessionStorage.getItem('token') ? sessionStorage.getItem('token') : null,
+    paidVideos: []
   }
 
-  componentDidMount () {
+
+  fetchFreeVideos () {
     axios.get('https://academy-video-api.herokuapp.com/content/free-items')
       .then(res => {
         const freeVideo = res.data;
-        this.setState({freeVideo: freeVideo, loading: false})
+        this.setState({freeVideo: freeVideo})
       })
+  }
+
+  fetchPaidVideos () {
+
+    axios.get('https://academy-video-api.herokuapp.com/content/items', {headers: {
+      'Authorization': `${sessionStorage.getItem('token')}`
+    }})
+      .then(res => {
+        const paidVideos = res.data;
+        this.setState({paidVideos: paidVideos})
+    })
+  }
+
+  componentDidMount () {
+
+    if (this.state.tokenInfo) {
+      this.fetchPaidVideos();
+    } else {
+      this.fetchFreeVideos();
+    }
+
   }
 
   render() {
     return (
       <div className="App">
-        <Header btnInfo={'Sign In'} />
-        <Hero btnInfo={'Get Access'} />
-        <hr className="seperator"/>
-        <Spacer />
-        <MovieCard data={this.state.freeVideo} />
-        <Spacer />
-        <Button btnInfo={'Get More Content'}/>
-        <Spacer />
-        <Footer />
+        <Routes>
+          <Route  path="/" element={<Main tokenInfoData={ this.state.tokenInfo } data={ this.state.tokenInfo ? this.state.paidVideos : this.state.freeVideo } />}> </Route>
+          <Route  path="login" element={<LogIn tokenInfoData={ this.state.tokenInfo } />} />
+          <Route  path="logout" element={<LogOut />} />
+        </Routes>
       </div>
     );
   };

@@ -1,0 +1,33 @@
+.login {
+  color: #fff;
+}
+
+.login-wrapper {
+  margin: 50px;
+  height: 100vh;
+}
+
+.login-wrapper__box {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  margin: 0 auto;
+  padding: 20px;
+  background: white;
+  color: #000;
+}
+
+.login-wrapper__box-username,
+.login-wrapper__box-password {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-wrapper__box-username label,
+.login-wrapper__box-password label {
+  padding: 10px 0;
+}
+
+.login-wrapper__box-error {
+  padding: 20px 0;
+}

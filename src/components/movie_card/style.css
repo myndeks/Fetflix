@@ -65,7 +65,8 @@
   align-items: center;
 }
 
-.favorite img {
+.favorite img,
+.movie_card__content-button img {
   width: 20px;
   margin-left: 5px;
 }

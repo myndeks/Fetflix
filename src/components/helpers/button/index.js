@@ -1,10 +1,13 @@
 import './style.css';
 
+import {
+  Link
+} from "react-router-dom";
 
-function Button () {
+function Button ({btnInfo, link}) {
   return (
     <div className="btn">
-      <button className="btn-red"> Get More Content </button>
+      <Link to={link}><button className="btn-red"> {btnInfo} </button></Link>
     </div>
   );
 }

@@ -5,7 +5,7 @@ function Hero () {
   return (
     <div className="hero">
       <h1>Wanna more Content?</h1>
-      <Button btnInfo={'Get Access'} />
+      <Button btnInfo={'Get Access'} link={'/login'} />
     </div>
   );
 }

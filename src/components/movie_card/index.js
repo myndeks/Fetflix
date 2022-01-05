@@ -5,29 +5,42 @@ import './style.css';
 function MovieCard (props) {
 
   const freeMovies = props.data;
-
-  const favorite = [];
+  let storageSessionData = sessionStorage.getItem('favorite');
+  const [favorites, setfavorites] = useState(storageSessionData ? storageSessionData : '');
 
 
   const handleFavorite = (e, i) => {
      e.preventDefault();
+     if (favorites.includes(i)) {
 
-     if (e.target.classList == 'movie_card__content-button') {
-       e.target.classList.remove('movie_card__content-button');
-       e.target.classList.add('favorite');
-       favorite.push(`${i}`);
-       document.cookie = favorite;
-       console.log(favorite);
-       e.target.innerHTML = `Remove <img src=${BrokenHart} alt="broken hart"/>`;
-     } else if (e.target.classList == 'favorite') {
-       e.target.classList.remove('favorite');
-       e.target.classList.add('movie_card__content-button');
-       e.target.innerHTML = 'Favorite';
+     } else {
+       sessionStorage.setItem('favorite', `${favorites},${i}` );
+       setfavorites( `${favorites},${i}` );
      }
-
+      console.log(favorites);
  }
 
- const cookiesInfo = document.cookie
+ const handleRemoveFavorite = (e, i) => {
+    e.preventDefault();
+    if (favorites.includes(i)) {
+
+      const array = favorites.split(',')
+      console.log('array ' + array);
+
+      let removedItems = array.map(item => item != i ? item : '');
+
+      setfavorites(removedItems);
+      sessionStorage.setItem('favorite', removedItems );
+      console.log('removed items ' + removedItems);
+
+    } else {
+    }
+     console.log('favorites ' + favorites);
+}
+
+
+
+
 
   return (
     <div className="movie_card_wrapper">
@@ -50,15 +63,18 @@ function MovieCard (props) {
                   </p>
                 </div>
 
-                {cookiesInfo.includes(i) ?
-                  <button onClick={(e) => handleFavorite(e, i)} className="favorite">
-                    Favorite
-                  </button>
-                  :
-                  <button onClick={(e) => handleFavorite(e, i)} className="movie_card__content-button">
-                    Favorite
-                  </button>
-                }
+
+                {
+                  favorites.includes(i) ?
+                    <button onClick={(e) => handleRemoveFavorite(e, i)} className="favorite">
+                      Remove <img src={BrokenHart} alt="broken hart"/>
+                    </button>
+                    :
+                    <button onClick={(e) => handleFavorite(e, i)} className="movie_card__content-button">
+                      Favorite
+                    </button>
+                  }
+
               </div>
             </div>
           );
