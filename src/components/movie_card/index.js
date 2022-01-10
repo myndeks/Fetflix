@@ -27,7 +27,7 @@ function MovieCard (props) {
       const array = favorites.split(',')
       console.log('array ' + array);
 
-      let removedItems = array.map(item => item != i ? item : '');
+      let removedItems = array.filter(item => item != i ? item : '');
 
       setfavorites(removedItems);
       sessionStorage.setItem('favorite', removedItems );

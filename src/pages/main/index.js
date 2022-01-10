@@ -6,7 +6,6 @@ import Footer from '../.././components/footer/index.js';
 import Spacer from '../.././components/helpers/spacer/index.js';
 
 function Main ({data, tokenInfoData}) {
-
   return(
     <>
     <Header btnInfo={tokenInfoData ? 'Sign Out' : 'Sign In'} link={ tokenInfoData ? '/logout' : '/login'} />
