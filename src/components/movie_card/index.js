@@ -6,38 +6,28 @@ function MovieCard (props) {
 
   const freeMovies = props.data;
   let storageSessionData = sessionStorage.getItem('favorite');
-  const [favorites, setfavorites] = useState(storageSessionData ? storageSessionData : '');
+  const [favorites, setfavorites] = useState( storageSessionData ? storageSessionData.split(",") : [] );
 
 
-  const handleFavorite = (e, i) => {
-     e.preventDefault();
-     if (favorites.includes(i)) {
-
-     } else {
-       sessionStorage.setItem('favorite', `${favorites},${i}` );
-       setfavorites( `${favorites},${i}` );
-     }
-      console.log(favorites);
- }
-
- const handleRemoveFavorite = (e, i) => {
-    e.preventDefault();
-    if (favorites.includes(i)) {
-
-      const array = favorites.split(',')
-      console.log('array ' + array);
-
-      let removedItems = array.filter(item => item != i ? item : '');
-
-      setfavorites(removedItems);
-      sessionStorage.setItem('favorite', removedItems );
-      console.log('removed items ' + removedItems);
-
+  const addRemoveFavorites = (itemId) => {
+    if (favorites.includes(itemId)) {
+      const updateFav = favorites.filter((item) => item !== itemId);
+      setfavorites(updateFav);
+      sessionStorage.setItem('favorite', updateFav );
     } else {
+      setfavorites(favorites.concat(itemId));
+      sessionStorage.setItem('favorite', `${itemId}, ${favorites}` );
     }
-     console.log('favorites ' + favorites);
-}
+  }
 
+  const handleFavorite = (e, itemId) => {
+     e.preventDefault();
+     addRemoveFavorites(itemId);
+   }
+   const handleRemoveFavorite = (e, itemId) => {
+      e.preventDefault();
+      addRemoveFavorites(itemId);
+  }
 
 
 
@@ -65,12 +55,12 @@ function MovieCard (props) {
 
 
                 {
-                  favorites.includes(i) ?
-                    <button onClick={(e) => handleRemoveFavorite(e, i)} className="favorite">
+                  favorites.includes(item.id) ?
+                    <button onClick={(e) => handleRemoveFavorite(e, item.id)} className="favorite">
                       Remove <img src={BrokenHart} alt="broken hart"/>
                     </button>
                     :
-                    <button onClick={(e) => handleFavorite(e, i)} className="movie_card__content-button">
+                    <button onClick={(e) => handleFavorite(e, item.id)} className="movie_card__content-button">
                       Favorite
                     </button>
                   }
