@@ -3,7 +3,6 @@ import { useState } from "react";
 
 function PopUp ({url}) {
 
-  console.log(url);
   const [action, setAction] = useState('pop_up pop_up-close');
   const [closePopUp, setClosePopUp] = useState('close_pop_up_button');
 
