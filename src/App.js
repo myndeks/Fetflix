@@ -10,6 +10,7 @@ import './App.css';
 import LogIn from './pages/logIn/index.js';
 import LogOut from './pages/logout/index.js';
 import Main from './pages/main/index.js';
+import MovieInfo from './components/movie_info/index.js';
 
 
 function App () {
@@ -23,6 +24,9 @@ function App () {
       .then(res => {
         const videosData = res.data;
         setMovies(videosData)
+      })
+      .catch((err) => {
+        console.log("AXIOS ERROR: ", err);
       })
     }, []);
 
@@ -40,6 +44,7 @@ function App () {
     <div className="App">
       <Routes>
         <Route  path="/" element={<Main tokenInfoData={ tokenInfo } data={ getMovies } />}> </Route>
+        <Route  path="/:id" element={<MovieInfo tokenInfoData={ tokenInfo } data={ getMovies } />}> </Route>
         <Route  path="login" element={<LogIn tokenInfoData={ tokenInfo } />} />
         <Route  path="logout" element={<LogOut />} />
       </Routes>

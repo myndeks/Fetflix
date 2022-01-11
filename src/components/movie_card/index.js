@@ -1,22 +1,25 @@
 import React, { useState } from 'react';
+import Axios from 'axios';
+import { Link } from "react-router-dom";
 import BrokenHart from './broken-heart.png';
 import './style.css';
 
 function MovieCard (props) {
 
   const freeMovies = props.data;
-  let storageSessionData = sessionStorage.getItem('favorite');
-  const [favorites, setfavorites] = useState( storageSessionData ? storageSessionData.split(",") : [] );
+  let storageSessionData = JSON.parse(sessionStorage.getItem('favorite'));
+  const [favorites, setfavorites] = useState( storageSessionData ? storageSessionData : [] );
 
 
   const addRemoveFavorites = (itemId) => {
     if (favorites.includes(itemId)) {
       const updateFav = favorites.filter((item) => item !== itemId);
       setfavorites(updateFav);
-      sessionStorage.setItem('favorite', updateFav );
+      sessionStorage.setItem('favorite', JSON.stringify(updateFav));
     } else {
-      setfavorites(favorites.concat(itemId));
-      sessionStorage.setItem('favorite', `${itemId}, ${favorites}` );
+      const updateFav = favorites.concat(itemId);
+      setfavorites(updateFav);
+      sessionStorage.setItem('favorite', JSON.stringify(updateFav));
     }
   }
 
@@ -30,8 +33,6 @@ function MovieCard (props) {
   }
 
 
-
-
   return (
     <div className="movie_card_wrapper">
       {
@@ -39,7 +40,7 @@ function MovieCard (props) {
           return (
             <div key={item.id} className="movie_card">
               <div className="movie_card__image">
-                <img src={item.image} alt={item.title} />
+                <Link to={item.id}> <img src={item.image} alt={item.title} /> </Link>
               </div>
 
               <div className="movie_card__content">
@@ -56,14 +57,14 @@ function MovieCard (props) {
 
                 {
                   favorites.includes(item.id) ?
-                    <button onClick={(e) => handleRemoveFavorite(e, item.id)} className="favorite">
-                      Remove <img src={BrokenHart} alt="broken hart"/>
-                    </button>
+                      <button onClick={(e) => handleRemoveFavorite(e, item.id)} className="favorite">
+                        Remove <img src={BrokenHart} alt="broken hart"/>
+                      </button>
                     :
-                    <button onClick={(e) => handleFavorite(e, item.id)} className="movie_card__content-button">
-                      Favorite
-                    </button>
-                  }
+                      <button onClick={(e) => handleFavorite(e, item.id)} className="movie_card__content-button">
+                        Favorite
+                      </button>
+                }
 
               </div>
             </div>

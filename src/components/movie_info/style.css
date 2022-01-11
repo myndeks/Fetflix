@@ -1,0 +1,28 @@
+.single-movie-wrapper {
+  color: #fff;
+  display: flex;
+  justify-content: space-around;
+
+  margin: 50px;
+}
+
+.single-movie-wrapper__image {
+  width: 500px;
+}
+
+.single-movie-wrapper__image img {
+  width: 100%;
+  height: auto;
+}
+
+.single-movie-wrapper__content {
+  padding: 0 40px;
+}
+
+.single-movie-wrapper__content-buttons {
+  display: flex;
+}
+
+.single-movie-wrapper__content-buttons button:first-child {
+  margin-right: 20px;
+}
