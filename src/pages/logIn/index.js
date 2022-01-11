@@ -1,10 +1,14 @@
 import "./style.css";
+import React, { createRef, useEffect, useCallback  } from 'react'
 import Header from '../.././components/header/index.js';
 import Footer from '../.././components/footer/index.js';
 import axios from 'axios';
 import { useState } from 'react';
 
 function LogIn ( {tokenInfoData} ) {
+
+  const password = createRef(null);
+  const username = createRef(null);
 
 
   function isLogedIn () {
@@ -15,23 +19,8 @@ function LogIn ( {tokenInfoData} ) {
 
   isLogedIn();
 
-  const [username, setUsername] = useState();
-  const [password, setPassword] = useState();
   const [error, setError] = useState('');
   const [token, setToken] = useState('');
-
-  function addUserName (e) {
-    setUsername(e.target.value);
-  }
-
-  const data = {
-    username: username,
-    password: password
-  };
-
-  function addUserPassword (e) {
-    setPassword(e.target.value);
-  }
 
   const headers = {
   'Content-Type': 'application/json',
@@ -40,7 +29,10 @@ function LogIn ( {tokenInfoData} ) {
 
   function logInIntoAccunt () {
     console.log(username, password);
-    axios.post('https://academy-video-api.herokuapp.com/auth/login', data, headers)
+     axios.post('https://academy-video-api.herokuapp.com/auth/login', {
+       username: username.current.value,
+       password: password.current.value
+     }, headers)
     .then((res) => {
       console.log("RESPONSE RECEIVED: ", res);
       setToken(res.data);
@@ -55,6 +47,7 @@ function LogIn ( {tokenInfoData} ) {
   }
 
 
+
   return (
     <div className="login">
       <Header btnInfo={'Sign In'} link={'/login'} />
@@ -64,11 +57,17 @@ function LogIn ( {tokenInfoData} ) {
         <div className="login-wrapper__box">
           <div className="login-wrapper__box-username">
             <label htmlFor="Username">Username</label>
-            <input onChange={(e) => addUserName(e)} type="text" />
+            <input
+              type="text"
+              ref={username}
+              />
           </div>
           <div className="login-wrapper__box-password">
             <label htmlFor="Username">Password</label>
-            <input onChange={(e) => addUserPassword(e)} type="password" />
+            <input
+              type="password"
+              ref={password}
+            />
           </div>
           <div className="login-wrapper__box-error">
             {error}
