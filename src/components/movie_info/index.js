@@ -6,12 +6,39 @@ import Header from '../.././components/header/index.js';
 import Footer from '../.././components/footer/index.js';
 import Button from '../helpers/button/index.js';
 import PopUp from '../helpers/pop_up/index.js';
+import Favorites from '../helpers/favorites/index.js';
+
 
 function MovieInfo ({tokenInfoData, data}) {
 
   let { id } = useParams();
 
   const [getSingleMovies, setSingleMovies] = useState([]);
+
+  let storageSessionData = JSON.parse(sessionStorage.getItem('favorite'));
+  const [favorites, setfavorites] = useState( storageSessionData ? storageSessionData : [] );
+
+  const addRemoveFavorites = (itemId) => {
+    if (favorites.includes(itemId)) {
+      const updateFav = favorites.filter((item) => item !== itemId);
+      setfavorites(updateFav);
+      sessionStorage.setItem('favorite', JSON.stringify(updateFav));
+    } else {
+      const updateFav = favorites.concat(itemId);
+      setfavorites(updateFav);
+      sessionStorage.setItem('favorite', JSON.stringify(updateFav));
+    }
+  }
+
+  const handleFavorite = (e, itemId) => {
+     e.preventDefault();
+     addRemoveFavorites(itemId);
+   }
+   const handleRemoveFavorite = (e, itemId) => {
+      e.preventDefault();
+      addRemoveFavorites(itemId);
+  }
+
 
   const getData = useCallback(async (url, header, token) => {
     await axios.get(url, header)
@@ -56,7 +83,7 @@ function MovieInfo ({tokenInfoData, data}) {
         </p>
         <div className="single-movie-wrapper__content-buttons">
           <PopUp url={getSingleMovies.video}/>
-          <Button btnInfo={'Favorites'} link={id}/>
+          <Favorites id={getSingleMovies.id} />
         </div>
       </div>
     </div>

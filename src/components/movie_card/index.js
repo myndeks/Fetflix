@@ -1,36 +1,13 @@
 import React, { useState } from 'react';
 import Axios from 'axios';
 import { Link } from "react-router-dom";
-import BrokenHart from './broken-heart.png';
 import './style.css';
+
+import Favorites from '../helpers/favorites/index.js';
 
 function MovieCard (props) {
 
   const freeMovies = props.data;
-  let storageSessionData = JSON.parse(sessionStorage.getItem('favorite'));
-  const [favorites, setfavorites] = useState( storageSessionData ? storageSessionData : [] );
-
-
-  const addRemoveFavorites = (itemId) => {
-    if (favorites.includes(itemId)) {
-      const updateFav = favorites.filter((item) => item !== itemId);
-      setfavorites(updateFav);
-      sessionStorage.setItem('favorite', JSON.stringify(updateFav));
-    } else {
-      const updateFav = favorites.concat(itemId);
-      setfavorites(updateFav);
-      sessionStorage.setItem('favorite', JSON.stringify(updateFav));
-    }
-  }
-
-  const handleFavorite = (e, itemId) => {
-     e.preventDefault();
-     addRemoveFavorites(itemId);
-   }
-   const handleRemoveFavorite = (e, itemId) => {
-      e.preventDefault();
-      addRemoveFavorites(itemId);
-  }
 
 
   return (
@@ -53,19 +30,7 @@ function MovieCard (props) {
                     {item.description.substring(0,50)}
                   </p>
                 </div>
-
-
-                {
-                  favorites.includes(item.id) ?
-                      <button onClick={(e) => handleRemoveFavorite(e, item.id)} className="favorite">
-                        Remove <img src={BrokenHart} alt="broken hart"/>
-                      </button>
-                    :
-                      <button onClick={(e) => handleFavorite(e, item.id)} className="movie_card__content-button">
-                        Favorite
-                      </button>
-                }
-
+                <Favorites id={item.id} />
               </div>
             </div>
           );
