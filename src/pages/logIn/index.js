@@ -11,10 +11,31 @@ function LogIn ( { tokenInfoData, error, addToken = () => {} } ) {
   const password = createRef(null);
   const username = createRef(null);
 
-
-  const logInIntoAccunt = () => {
-    addToken(password.current.value, username.current.value)
+  const headers = {
+  'Content-Type': 'application/json',
   }
+
+
+  function logInIntoAccunt () {
+    console.log(username, password);
+     axios.post('https://academy-video-api.herokuapp.com/auth/login', {
+       username: username.current.value,
+       password: password.current.value
+     }, headers)
+    .then((res) => {
+      console.log("RESPONSE RECEIVED: ", res);
+      const tokenData = res.data;
+      sessionStorage.setItem('token', tokenData.token);
+      window.location.replace("/");
+      addToken(tokenInfoData);
+    })
+    .catch((err) => {
+      console.log("AXIOS ERROR: ", err);
+      addToken('Please fill in all the fields');
+    })
+  }
+
+
 
   return (
     <div className="login">
@@ -61,7 +82,7 @@ function mapStateToProps ({ auth, tokenInfoData, error }) {
 }
 function mapDispatchToProps (dispatch) {
   return {
-    addToken: (password, username) => dispatch({ type: 'AUTH/LOGIN', password, username }),
+    addToken: (tokenInfoData, error) => dispatch({ type: 'AUTH/LOGIN', tokenInfoData, error }),
   };
 }
 

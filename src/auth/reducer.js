@@ -9,28 +9,7 @@ const DEFAULT_STATE = {
 function reducer (state = DEFAULT_STATE, action) {
   switch (action.type) {
     case "AUTH/LOGIN":
-
-      const headers = {
-      'Content-Type': 'application/json',
-      }
-
-         axios.post('https://academy-video-api.herokuapp.com/auth/login', {
-           username: action.username,
-           password: action.password
-         }, headers)
-        .then((res) => {
-          console.log("RESPONSE RECEIVED: ", res);
-          const tokenData = res.data;
-          sessionStorage.setItem('token', tokenData.token);
-          window.location.replace("/");
-          return {...state, tokenInfoData: tokenData}
-        })
-        .catch((err) => {
-          console.log("AXIOS ERROR: ", err);
-          return {...state, error: "err"}
-
-        })
-
+      return { ...state, tokenInfoData:  action.tokenInfoData, error: 'UPS. Please fill all fields!' };
       default:
     return state;
 
