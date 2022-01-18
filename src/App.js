@@ -11,40 +11,29 @@ import LogIn from './pages/logIn/index.js';
 import LogOut from './pages/logout/index.js';
 import Main from './pages/main/index.js';
 import MovieInfo from './components/movie_info/index.js';
+import useFetch from './hooks/useFetch.js';
 
 
 function App () {
 
-  const [getMovies, setMovies] = useState([]);
-  const [tokenInfo, setTokenInfo] = useState(sessionStorage.getItem('token') ? sessionStorage.getItem('token') : null);
+  const {
+    error,
+    tokenInfo,
+    payLoad: movies = [],
+  } = useFetch (
+    'https://academy-video-api.herokuapp.com/content/free-items',
+    'https://academy-video-api.herokuapp.com/content/items',
+        {headers: {
+          'Authorization': `${sessionStorage.getItem('token')}`
+    }}
+  );
 
-
-  const getData = useCallback(async (url, header) => {
-    await axios.get(url, header)
-      .then(res => {
-        const videosData = res.data;
-        setMovies(videosData)
-      })
-      .catch((err) => {
-        console.log("AXIOS ERROR: ", err);
-      })
-    }, []);
-
-   useEffect(() => {
-     if (tokenInfo) {
-       getData('https://academy-video-api.herokuapp.com/content/items', {headers: {
-         'Authorization': `${sessionStorage.getItem('token')}`
-       }} )
-     } else {
-       getData('https://academy-video-api.herokuapp.com/content/free-items', null);
-     }
-   },[getData]);
 
   return (
     <div className="App">
       <Routes>
-        <Route  path="/" element={<Main tokenInfoData={ tokenInfo } data={ getMovies } />}> </Route>
-        <Route  path="/:id" element={<MovieInfo tokenInfoData={ tokenInfo } data={ getMovies } />}> </Route>
+        <Route  path="/" element={<Main tokenInfoData={ tokenInfo } data={ movies } />}> </Route>
+        <Route  path="/:id" element={<MovieInfo tokenInfoData={ tokenInfo } data={ movies } />}> </Route>
         <Route  path="login" element={<LogIn tokenInfoData={ tokenInfo } />} />
         <Route  path="logout" element={<LogOut />} />
       </Routes>

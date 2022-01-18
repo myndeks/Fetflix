@@ -15,31 +15,6 @@ function MovieInfo ({tokenInfoData, data}) {
 
   const [getSingleMovies, setSingleMovies] = useState([]);
 
-  let storageSessionData = JSON.parse(sessionStorage.getItem('favorite'));
-  const [favorites, setfavorites] = useState( storageSessionData ? storageSessionData : [] );
-
-  const addRemoveFavorites = (itemId) => {
-    if (favorites.includes(itemId)) {
-      const updateFav = favorites.filter((item) => item !== itemId);
-      setfavorites(updateFav);
-      sessionStorage.setItem('favorite', JSON.stringify(updateFav));
-    } else {
-      const updateFav = favorites.concat(itemId);
-      setfavorites(updateFav);
-      sessionStorage.setItem('favorite', JSON.stringify(updateFav));
-    }
-  }
-
-  const handleFavorite = (e, itemId) => {
-     e.preventDefault();
-     addRemoveFavorites(itemId);
-   }
-   const handleRemoveFavorite = (e, itemId) => {
-      e.preventDefault();
-      addRemoveFavorites(itemId);
-  }
-
-
   const getData = useCallback(async (url, header, token) => {
     await axios.get(url, header)
       .then(res => {
