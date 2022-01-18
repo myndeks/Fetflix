@@ -3,7 +3,7 @@ import BrokenHart from './broken-heart.png';
 import { connect } from "react-redux";
 
 
-function Favorites ({id, isFavorite, toggleFavorites = () => {} }) {
+function Favorites ( {id, isFavorite, toggleFavorites = () => {} } ) {
 
   const handleOnClick = () => {
     toggleFavorites(id);

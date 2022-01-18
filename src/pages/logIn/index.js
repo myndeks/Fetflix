@@ -1,52 +1,20 @@
 import "./style.css";
-import React, { createRef, useEffect, useCallback  } from 'react'
+import React, { createRef } from 'react'
 import Header from '../.././components/header/index.js';
 import Footer from '../.././components/footer/index.js';
 import axios from 'axios';
-import { useState } from 'react';
+import { connect } from "react-redux";
 
-function LogIn ( {tokenInfoData} ) {
+
+function LogIn ( { tokenInfoData, error, addToken = () => {} } ) {
 
   const password = createRef(null);
   const username = createRef(null);
 
 
-  function isLogedIn () {
-    if (tokenInfoData) {
-      window.location.replace("/");
-    }
+  const logInIntoAccunt = () => {
+    addToken(password.current.value, username.current.value)
   }
-
-  isLogedIn();
-
-  const [error, setError] = useState('');
-  const [token, setToken] = useState('');
-
-  const headers = {
-  'Content-Type': 'application/json',
-  }
-
-
-  function logInIntoAccunt () {
-    console.log(username, password);
-     axios.post('https://academy-video-api.herokuapp.com/auth/login', {
-       username: username.current.value,
-       password: password.current.value
-     }, headers)
-    .then((res) => {
-      console.log("RESPONSE RECEIVED: ", res);
-      setToken(res.data);
-      const tokenData = res.data;
-      sessionStorage.setItem('token', tokenData.token);
-      window.location.replace("/");
-    })
-    .catch((err) => {
-      console.log("AXIOS ERROR: ", err);
-      setError('Failure: please check the login details.')
-    })
-  }
-
-
 
   return (
     <div className="login">
@@ -84,4 +52,20 @@ function LogIn ( {tokenInfoData} ) {
   );
 }
 
-export default LogIn;
+
+function mapStateToProps ({ auth, tokenInfoData, error }) {
+  return {
+    tokenInfoData: auth.tokenInfoData,
+    error: auth.error,
+  }
+}
+function mapDispatchToProps (dispatch) {
+  return {
+    addToken: (password, username) => dispatch({ type: 'AUTH/LOGIN', password, username }),
+  };
+}
+
+
+const wrapComponent = connect(mapStateToProps, mapDispatchToProps);
+
+export default wrapComponent(LogIn);
